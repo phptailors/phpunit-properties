@@ -3,7 +3,7 @@
 /*
  * This file is part of phptailors/phpunit-extensions.
  *
- * Copyright (c) Paweł Tomulik <ptomulik@meil.pw.edu.pl>
+ * Copyright (c) Paweł Tomulik <pawel@tomulik.pl>
  *
  * View the LICENSE file for full copyright and license information.
  */
@@ -12,6 +12,7 @@ namespace Tailors\PHPUnit;
 
 use PHPUnit\Framework\Constraint\Constraint;
 use PHPUnit\Framework\Constraint\LogicalNot;
+use PHPUnit\Framework\ExpectationFailedException;
 use Tailors\PHPUnit\Constraint\ObjectPropertiesEqualTo;
 
 trait ObjectPropertiesEqualToTrait
@@ -23,8 +24,7 @@ trait ObjectPropertiesEqualToTrait
      * @param Constraint $constraint
      * @param string     $message
      *
-     * @throws \PHPUnit\Framework\ExpectationFailedException
-     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     abstract public static function assertThat($value, Constraint $constraint, string $message = ''): void;
 
@@ -39,9 +39,8 @@ trait ObjectPropertiesEqualToTrait
      * @param string $message
      *                         Optional failure message
      *
-     * @throws \PHPUnit\Framework\ExpectationFailedException
-     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
-     * @throws \Tailors\PHPUnit\InvalidArgumentException
+     * @throws ExpectationFailedException
+     * @throws InvalidArgumentException
      */
     public static function assertObjectPropertiesEqualTo(
         array $expected,
@@ -62,9 +61,8 @@ trait ObjectPropertiesEqualToTrait
      * @param string $message
      *                         Optional failure message
      *
-     * @throws \PHPUnit\Framework\ExpectationFailedException
-     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
-     * @throws \Tailors\PHPUnit\InvalidArgumentException
+     * @throws ExpectationFailedException
+     * @throws InvalidArgumentException
      */
     public static function assertNotObjectPropertiesEqualTo(
         array $expected,
@@ -80,7 +78,7 @@ trait ObjectPropertiesEqualToTrait
      * @param array $expected
      *                        An array of key => value pairs with expected values of attributes
      *
-     * @throws \Tailors\PHPUnit\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public static function objectPropertiesEqualTo(array $expected): ObjectPropertiesEqualTo
     {

@@ -3,13 +3,15 @@
 /*
  * This file is part of phptailors/phpunit-extensions.
  *
- * Copyright (c) Paweł Tomulik <ptomulik@meil.pw.edu.pl>
+ * Copyright (c) Paweł Tomulik <pawel@tomulik.pl>
  *
  * View the LICENSE file for full copyright and license information.
  */
 
 namespace Tailors\PHPUnit\Constraint;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\ExpectationFailedException;
 use Tailors\PHPUnit\InvalidArgumentException;
 use Tailors\PHPUnit\Values\ConstraintTestCase;
 
@@ -46,10 +48,7 @@ abstract class PropertiesConstraintTestCase extends ConstraintTestCase
     }
 
     // @codeCoverageIgnoreEnd
-
-    /**
-     * @dataProvider provArrayWithNonStringKeys
-     */
+    #[DataProvider('provArrayWithNonStringKeys')]
     final public function testCreateWithNonStringKeys(array $array, int $count): void
     {
         $this->examineCreateWithNonStringKeys($array, $count);
@@ -58,7 +57,6 @@ abstract class PropertiesConstraintTestCase extends ConstraintTestCase
     }
 
     // @codeCoverageIgnoreEnd
-
     /**
      * Assert that constraint constructor throws InvalidArgumentException with
      * appropriate message when provided with an array having one or more
@@ -67,7 +65,7 @@ abstract class PropertiesConstraintTestCase extends ConstraintTestCase
      * @param array $array An array with non-string keys to be passed as an argument to $function
      * @param int   $count Number of non-string keys in $array
      *
-     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws ExpectationFailedException
      */
     private function examineCreateWithNonStringKeys(array $array, int $count): void
     {

@@ -3,27 +3,31 @@
 /*
  * This file is part of phptailors/phpunit-extensions.
  *
- * Copyright (c) Paweł Tomulik <ptomulik@meil.pw.edu.pl>
+ * Copyright (c) Paweł Tomulik <pawel@tomulik.pl>
  *
  * View the LICENSE file for full copyright and license information.
  */
 
 namespace Tailors\PHPUnit\Constraint;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Constraint\Constraint;
+use Tailors\PHPUnit\Values\ConstraintTestCase;
 
 /**
  * @small
  *
- * @covers \Tailors\PHPUnit\Constraint\ObjectPropertiesEqualTo
- * @covers \Tailors\PHPUnit\Constraint\PropertiesConstraintTestCase
- * @covers \Tailors\PHPUnit\Constraint\ProvObjectPropertiesTrait
- * @covers \Tailors\PHPUnit\Values\ConstraintTestCase
- *
  * @internal This class is not covered by the backward compatibility promise
  *
  * @psalm-internal Tailors\PHPUnit
+ *
+ * @coversNothing
  */
+#[CoversClass(ObjectPropertiesEqualTo::class)]
+#[CoversClass(PropertiesConstraintTestCase::class)]
+#[CoversClass(ProvObjectPropertiesTrait::class)]
+#[CoversClass(ConstraintTestCase::class)]
 final class ObjectPropertiesEqualToTest extends PropertiesConstraintTestCase
 {
     use ProvObjectPropertiesTrait;
@@ -48,50 +52,46 @@ final class ObjectPropertiesEqualToTest extends PropertiesConstraintTestCase
         return ObjectPropertiesEqualTo::class;
     }
 
-    public function createConstraint(...$args): Constraint
+    public static function createConstraint(...$args): Constraint
     {
         return ObjectPropertiesEqualTo::create(...$args);
     }
 
     /**
-     * @dataProvider provObjectPropertiesIdenticalTo
-     * @dataProvider provObjectPropertiesEqualButNotIdenticalTo
-     *
      * @param mixed $actual
      */
-    public function testObjectPropertiesEqualToSucceeds(array $expect, $actual): void
+    #[DataProvider('provObjectPropertiesIdenticalTo')]
+    #[DataProvider('provObjectPropertiesEqualButNotIdenticalTo')]
+    public function testObjectPropertiesEqualToSucceeds(array $expect, $actual, string $string): void
     {
         parent::examineValuesMatchSucceeds($expect, $actual);
     }
 
     /**
-     * @dataProvider provObjectPropertiesNotEqualTo
-     * @dataProvider provObjectPropertiesNotEqualToNonObject
-     *
      * @param mixed $actual
      */
+    #[DataProvider('provObjectPropertiesNotEqualTo')]
+    #[DataProvider('provObjectPropertiesNotEqualToNonObject')]
     public function testObjectPropertiesEqualToFails(array $expect, $actual, string $string): void
     {
         parent::examineValuesMatchFails($expect, $actual, $string);
     }
 
     /**
-     * @dataProvider provObjectPropertiesNotEqualTo
-     * @dataProvider provObjectPropertiesNotEqualToNonObject
-     *
      * @param mixed $actual
      */
-    public function testNotObjectPropertiesEqualToSucceeds(array $expect, $actual): void
+    #[DataProvider('provObjectPropertiesNotEqualTo')]
+    #[DataProvider('provObjectPropertiesNotEqualToNonObject')]
+    public function testNotObjectPropertiesEqualToSucceeds(array $expect, $actual, string $string): void
     {
         parent::examineNotValuesMatchSucceeds($expect, $actual);
     }
 
     /**
-     * @dataProvider provObjectPropertiesIdenticalTo
-     * @dataProvider provObjectPropertiesEqualButNotIdenticalTo
-     *
      * @param mixed $actual
      */
+    #[DataProvider('provObjectPropertiesIdenticalTo')]
+    #[DataProvider('provObjectPropertiesEqualButNotIdenticalTo')]
     public function testNotObjectPropertiesEqualToFails(array $expect, $actual, string $string): void
     {
         parent::examineNotValuesMatchFails($expect, $actual, $string);
