@@ -3,13 +3,14 @@
 /*
  * This file is part of phptailors/phpunit-extensions.
  *
- * Copyright (c) Paweł Tomulik <ptomulik@meil.pw.edu.pl>
+ * Copyright (c) Paweł Tomulik <pawel@tomulik.pl>
  *
  * View the LICENSE file for full copyright and license information.
  */
 
 namespace Tailors\PHPUnit\Constraint;
 
+use PHPUnit\Framework\ExpectationFailedException;
 use Tailors\PHPUnit\InvalidArgumentException;
 use Tailors\PHPUnit\Values\ConstraintTestCase;
 
@@ -67,7 +68,7 @@ abstract class PropertiesConstraintTestCase extends ConstraintTestCase
      * @param array $array An array with non-string keys to be passed as an argument to $function
      * @param int   $count Number of non-string keys in $array
      *
-     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws ExpectationFailedException
      */
     private function examineCreateWithNonStringKeys(array $array, int $count): void
     {
