@@ -13,7 +13,6 @@ namespace Tailors\PHPUnit;
 use PHPUnit\Framework\Constraint\Constraint;
 use PHPUnit\Framework\Constraint\LogicalNot;
 use PHPUnit\Framework\ExpectationFailedException;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 use Tailors\PHPUnit\Constraint\ObjectPropertiesEqualTo;
 
 trait ObjectPropertiesEqualToTrait
@@ -26,7 +25,6 @@ trait ObjectPropertiesEqualToTrait
      * @param string     $message
      *
      * @throws ExpectationFailedException
-     * @throws InvalidArgumentException
      */
     abstract public static function assertThat($value, Constraint $constraint, string $message = ''): void;
 
@@ -43,7 +41,6 @@ trait ObjectPropertiesEqualToTrait
      *
      * @throws ExpectationFailedException
      * @throws InvalidArgumentException
-     * @throws \Tailors\PHPUnit\InvalidArgumentException
      */
     public static function assertObjectPropertiesEqualTo(
         array $expected,
@@ -66,7 +63,6 @@ trait ObjectPropertiesEqualToTrait
      *
      * @throws ExpectationFailedException
      * @throws InvalidArgumentException
-     * @throws \Tailors\PHPUnit\InvalidArgumentException
      */
     public static function assertNotObjectPropertiesEqualTo(
         array $expected,
@@ -82,7 +78,7 @@ trait ObjectPropertiesEqualToTrait
      * @param array $expected
      *                        An array of key => value pairs with expected values of attributes
      *
-     * @throws \Tailors\PHPUnit\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public static function objectPropertiesEqualTo(array $expected): ObjectPropertiesEqualTo
     {

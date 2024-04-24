@@ -10,6 +10,8 @@
 
 namespace Tailors\PHPUnit;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestCase;
 use Tailors\PHPUnit\Constraint\ObjectPropertiesIdenticalTo;
@@ -18,12 +20,13 @@ use Tailors\PHPUnit\Constraint\ProvObjectPropertiesTrait;
 /**
  * @small
  *
- * @covers \Tailors\PHPUnit\ObjectPropertiesIdenticalToTrait
- *
  * @internal This class is not covered by the backward compatibility promise
  *
  * @psalm-internal Tailors\PHPUnit
+ *
+ * @coversNothing
  */
+#[CoversClass(ObjectPropertiesIdenticalToTrait::class)]
 final class ObjectPropertiesIdenticalToTraitTest extends TestCase
 {
     use ObjectPropertiesIdenticalToTrait;
@@ -34,35 +37,27 @@ final class ObjectPropertiesIdenticalToTraitTest extends TestCase
         return ObjectPropertiesIdenticalTo::create(...$args);
     }
 
-    /**
-     * @dataProvider provObjectPropertiesIdenticalTo
-     */
+    #[DataProvider('provObjectPropertiesIdenticalTo')]
     public function testObjectPropertiesIdenticalTo(array $expect, object $actual, string $string)
     {
         self::assertThat($actual, self::objectPropertiesIdenticalTo($expect));
     }
 
-    /**
-     * @dataProvider provObjectPropertiesNotEqualTo
-     * @dataProvider provObjectPropertiesEqualButNotIdenticalTo
-     */
+    #[DataProvider('provObjectPropertiesNotEqualTo')]
+    #[DataProvider('provObjectPropertiesEqualButNotIdenticalTo')]
     public function testLogicalNotObjectPropertiesIdenticalTo(array $expect, object $actual, string $string)
     {
         self::assertThat($actual, self::logicalNot(self::objectPropertiesIdenticalTo($expect)));
     }
 
-    /**
-     * @dataProvider provObjectPropertiesIdenticalTo
-     */
+    #[DataProvider('provObjectPropertiesIdenticalTo')]
     public function testAssertObjectPropertiesIdenticalTo(array $expect, object $actual, string $string)
     {
         self::assertObjectPropertiesIdenticalTo($expect, $actual);
     }
 
-    /**
-     * @dataProvider provObjectPropertiesNotEqualTo
-     * @dataProvider provObjectPropertiesEqualButNotIdenticalTo
-     */
+    #[DataProvider('provObjectPropertiesNotEqualTo')]
+    #[DataProvider('provObjectPropertiesEqualButNotIdenticalTo')]
     public function testAssertObjectPropertiesIdenticalToFails(array $expect, object $actual, string $string)
     {
         $regexp = '/^Lorem ipsum.\n'.
@@ -74,17 +69,13 @@ final class ObjectPropertiesIdenticalToTraitTest extends TestCase
         self::assertObjectPropertiesIdenticalTo($expect, $actual, 'Lorem ipsum.');
     }
 
-    /**
-     * @dataProvider provObjectPropertiesNotEqualTo
-     */
+    #[DataProvider('provObjectPropertiesNotEqualTo')]
     public function testAssertNotObjectPropertiesIdenticalTo(array $expect, object $actual, string $string)
     {
         self::assertNotObjectPropertiesIdenticalTo($expect, $actual);
     }
 
-    /**
-     * @dataProvider provObjectPropertiesIdenticalTo
-     */
+    #[DataProvider('provObjectPropertiesIdenticalTo')]
     public function testAssertNotObjectPropertiesIdenticalToFails(array $expect, object $actual, string $string)
     {
         $regexp = '/^Lorem ipsum.\n'.
