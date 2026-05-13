@@ -10,7 +10,7 @@
 
 namespace Tailors\PHPUnit;
 
-use PHPUnit\Framework\Attributes\CoversTrait;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Small;
 use PHPUnit\Framework\ExpectationFailedException;
@@ -23,14 +23,13 @@ use Tailors\PHPUnit\Constraint\ProvObjectPropertiesTrait;
  *
  * @psalm-internal Tailors\PHPUnit
  */
-#[CoversTrait(ObjectPropertiesIdenticalToTrait::class)]
+#[CoversClass(ObjectPropertiesIdenticalToTrait::class)]
 #[Small]
 final class ObjectPropertiesIdenticalToTraitTest extends TestCase
 {
     use ObjectPropertiesIdenticalToTrait;
     use ProvObjectPropertiesTrait;
 
-    #[\Override]
     public static function createConstraint(...$args): ObjectPropertiesIdenticalTo
     {
         return ObjectPropertiesIdenticalTo::create(...$args);

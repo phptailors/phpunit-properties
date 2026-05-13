@@ -11,7 +11,6 @@
 namespace Tailors\PHPUnit\Constraint;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Small;
 use PHPUnit\Framework\Constraint\Constraint;
@@ -24,38 +23,33 @@ use Tailors\PHPUnit\Values\ConstraintTestCase;
  */
 #[CoversClass(ClassPropertiesIdenticalTo::class)]
 #[CoversClass(PropertiesConstraintTestCase::class)]
-#[CoversTrait(ProvClassPropertiesTrait::class)]
+#[CoversClass(ProvClassPropertiesTrait::class)]
 #[CoversClass(ConstraintTestCase::class)]
 #[Small]
 final class ClassPropertiesIdenticalToTest extends PropertiesConstraintTestCase
 {
     use ProvClassPropertiesTrait;
 
-    #[\Override]
     public static function subject(): string
     {
         return 'a class';
     }
 
-    #[\Override]
     public static function selectable(): string
     {
         return 'properties';
     }
 
-    #[\Override]
     public static function adjective(): string
     {
         return 'identical to';
     }
 
-    #[\Override]
     public static function getConstraintClass(): string
     {
         return ClassPropertiesIdenticalTo::class;
     }
 
-    #[\Override]
     public static function createConstraint(...$args): Constraint
     {
         return ClassPropertiesIdenticalTo::create(...$args);

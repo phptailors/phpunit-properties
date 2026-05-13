@@ -50,7 +50,6 @@ final class ObjectPropertiesIdenticalTo extends AbstractConstraint
     /**
      * Creates instance of IdentityComparator.
      */
-    #[\Override]
     protected static function makeComparator(): ComparatorInterface
     {
         return new IdentityComparator();
@@ -59,7 +58,6 @@ final class ObjectPropertiesIdenticalTo extends AbstractConstraint
     /**
      * Creates instance of ObjectPropertySelector.
      */
-    #[\Override]
     protected static function makeSelector(): ValueSelectorInterface
     {
         return new ObjectPropertySelector();
