@@ -8,24 +8,35 @@
  * View the LICENSE file for full copyright and license information.
  */
 
-namespace Tailors\PHPUnit\Constraint;
+namespace Tailors\PHPUnit\Properties;
 
-use PHPUnit\Framework\ExpectationFailedException;
+use PHPUnit\Framework\Constraint\Constraint;
 use Tailors\PHPUnit\InvalidArgumentException;
-use Tailors\PHPUnit\Recursive\RecursiveConstraintTestCase;
+use Tailors\PHPUnit\RecursiveConstraint\AbstractRecursiveConstraintTestCase;
 
 /**
  * @internal This class is not covered by the backward compatibility promise
  *
  * @psalm-internal Tailors\PHPUnit
+ *
+ * @psalm-template ConstraintClass of Constraint
+ * @psalm-template CtorArgs of list
+ *
+ * @template-extends AbstractRecursiveConstraintTestCase<ConstraintClass>
  */
-abstract class PropertiesConstraintTestCase extends RecursiveConstraintTestCase
+abstract class AbstractPropertiesConstraintTestCase extends AbstractRecursiveConstraintTestCase
 {
-    // @codeCoverageIgnoreStart
-
+    /**
+     * @psalm-return iterable<string, array{
+     *      array: array,
+     *      count: int
+     * }>
+     *
+     * @codeCoverageIgnore
+     */
     public static function provArrayWithNonStringKeys(): iterable
     {
-        yield 'PropertiesConstraintTestTrait.php:'.__LINE__ => [
+        yield basename(__FILE__).':'.__LINE__ => [
             'array' => [
                 'a' => 'A',
                 0   => 'B',
@@ -33,7 +44,7 @@ abstract class PropertiesConstraintTestCase extends RecursiveConstraintTestCase
             'count' => 1,
         ];
 
-        yield 'PropertiesConstraintTestTrait.php:'.__LINE__ => [
+        yield basename(__FILE__).':'.__LINE__ => [
             'array' => [
                 'a' => 'A',
                 0   => 'B',
@@ -45,36 +56,19 @@ abstract class PropertiesConstraintTestCase extends RecursiveConstraintTestCase
         ];
     }
 
-    // @codeCoverageIgnoreEnd
-
     /**
      * @dataProvider provArrayWithNonStringKeys
+     *
+     * @psalm-param array $array
+     *
+     * @psalm-suppress MissingThrowsDocblock
      */
     final public function testCreateWithNonStringKeys(array $array, int $count): void
-    {
-        $this->examineCreateWithNonStringKeys($array, $count);
-
-        // @codeCoverageIgnoreStart
-    }
-
-    // @codeCoverageIgnoreEnd
-
-    /**
-     * Assert that constraint constructor throws InvalidArgumentException with
-     * appropriate message when provided with an array having one or more
-     * non-string keys.
-     *
-     * @param array $array An array with non-string keys to be passed as an argument to $function
-     * @param int   $count Number of non-string keys in $array
-     *
-     * @throws ExpectationFailedException
-     */
-    private function examineCreateWithNonStringKeys(array $array, int $count): void
     {
         $message = sprintf(
             'Argument 1 passed to %s::create() must be an associative array with string keys, '.
             'an array with %d non-string %s given',
-            $this->createConstraint([])::class,
+            static::createConstraint([[]])::class,
             $count,
             $count > 1 ? 'keys' : 'key'
         );
@@ -82,12 +76,8 @@ abstract class PropertiesConstraintTestCase extends RecursiveConstraintTestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage($message);
 
-        $this->createConstraint($array);
-
-        // @codeCoverageIgnoreStart
+        static::createConstraint([$array]);
     }
-
-    // @codeCoverageIgnoreEnd
 }
 
 // vim: syntax=php sw=4 ts=4 et:
