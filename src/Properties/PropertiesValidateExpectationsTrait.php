@@ -10,31 +10,43 @@
 
 namespace Tailors\PHPUnit\Properties;
 
+use Tailors\PHPUnit\Common\TypesInterface;
 use Tailors\PHPUnit\InvalidArgumentException;
 
 /**
  * @internal This trait is not covered by the backward compatibility promise
  *
  * @psalm-internal Tailors\PHPUnit
+ *
+ * @psalm-import-type ArrayLike from TypesInterface
+ *
+ * @var TypesInterface $__phpactor__workaround__unused_import__TypesInterface
  */
-trait ValidateExpectationsTrait
+trait PropertiesValidateExpectationsTrait
 {
     /**
+     * @psalm-assert iterable<string, mixed> $expectations
+     *
      * @throws InvalidArgumentException
+     *
+     * @psalm-param ArrayLike $expectations
      */
-    protected static function validateExpectations(array $expected, int $argument, int $distance = 1): void
+    protected static function validateExpectations(iterable $expectations, int $argument, int $distance = 1): void
     {
-        self::assertStringKeysOnly($expected, $argument, 1 + $distance);
+        $array = is_array($expectations) ? $expectations : iterator_to_array($expectations);
+        self::assertStringKeysOnly($array, $argument, 1 + $distance);
     }
 
     /**
      * @psalm-assert array<string, mixed> $array
      *
      * @throws InvalidArgumentException
+     *
+     * @psalm-param array $array
      */
     private static function assertStringKeysOnly(array $array, int $argument, int $distance = 1): void
     {
-        $valid = array_filter($array, fn (mixed $val) => is_string($val), ARRAY_FILTER_USE_KEY);
+        $valid = array_filter($array, is_string(...), ARRAY_FILTER_USE_KEY);
         if (($count = count($array) - count($valid)) > 0) {
             throw InvalidArgumentException::fromBackTrace(
                 $argument,
